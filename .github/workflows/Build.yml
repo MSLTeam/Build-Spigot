@@ -225,7 +225,7 @@ jobs:
               run: "tree"
 
             - name: 发布构建结果
-              uses: ncipollo/release-action@v1.8.0
+              uses: ncipollo/release-action@v1.16.0
               with:
                   name: 构建结果
                   allowUpdates: true
