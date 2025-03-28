@@ -12,38 +12,6 @@ on:
         - cron: "30 18 1,16 * *"
 
 jobs:
-    # setup_env:
-    #     runs-on: ubuntu-latest
-
-    #     steps:
-    #         - name: Setup java
-    #           uses: actions/setup-java@v2
-    #           with:
-    #               distribution: "adopt"
-    #               java-version: "16"
-
-    #         - name: Download BuildTools.jar
-    #           run: wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-
-    #         - name: Build Jars
-    #           run: |
-    #               mkdir ./outputs
-    #               java -jar BuildTools.jar --output-dir ./outputs
-
-    #         - name: Upload products
-    #           uses: actions/upload-artifact@v2
-    #           with:
-    #               name: outputs
-    #               path: outputs/
-
-    #         - name: pack enviroment
-    #           run: tar -cvf env.tar Bukkit CraftBukkit Spigot apache-maven-3.6.0 BuildTools.jar
-
-    #         - name: Upload enviroment
-    #           uses: actions/upload-artifact@v4
-    #           with:
-    #               name: env.tar
-    #               path: env.tar
     build_on_java21:
         # for minecraft 1.21+
         runs-on: ubuntu-latest
@@ -82,7 +50,7 @@ jobs:
                   name: outputs-${{ matrix.ver }}
                   path: outputs
                   
-    build_on_java18:
+    build_on_java17:
         # for minecraft 1.17+
         runs-on: ubuntu-latest
         strategy:
@@ -111,7 +79,7 @@ jobs:
               uses: actions/setup-java@v2
               with:
                   distribution: "adopt"
-                  java-version: "18"
+                  java-version: "17"
 
             - name: Download BuildTools.jar
               run: wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
@@ -228,7 +196,7 @@ jobs:
         needs:
             - build_on_java16
             - build_on_java8
-            - build_on_java18
+            - build_on_java17
             - build_on_java21
 
         runs-on: ubuntu-latest
