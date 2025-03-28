@@ -1,7 +1,7 @@
 # This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
 
-name: Build Spigot Jar
+name: 构建Spigot
 env:
     latest: '1.21.5'
 
@@ -15,6 +15,7 @@ jobs:
     build_on_java21:
         # for minecraft 1.21+
         runs-on: ubuntu-latest
+        name: 构建适用于Java21的MC版本
         strategy:
             matrix:
                 ver:
@@ -215,7 +216,7 @@ jobs:
             - name: Upload to release
               uses: ncipollo/release-action@v1.8.0
               with:
-                  name: Build_Distribute
+                  name: 构建结果
                   allowUpdates: true
                   replacesArtifacts: true
                   tag: BuildRelease
