@@ -3,7 +3,7 @@
 
 name: Build Spigot Jar
 env:
-    latest: '1.17.1'
+    latest: '1.21.5'
 
 on:
     workflow_dispatch:
@@ -44,13 +44,59 @@ jobs:
     #           with:
     #               name: env.tar
     #               path: env.tar
+    build_on_java21:
+        # for minecraft 1.21+
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                ver:
+                    - '1.21.5'
+                    - '1.21.4'
+                    - '1.21.3'
+                    - '1.21.2'
+                    - '1.21.1'
+                    - '1.21'
+        env:
+            ver: ${{ matrix.ver }}
+
+        steps:
+            - name: Setup java
+              uses: actions/setup-java@v2
+              with:
+                  distribution: "adopt"
+                  java-version: "21"
+
+            - name: Download BuildTools.jar
+              run: wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
+
+            - run: mkdir ./outputs
+
+            - name: Build Jars
+              # if: ${{ matrix.ver !=  env.latest }}
+              continue-on-error: true
+              run: java -jar BuildTools.jar --rev $ver --output-dir ./outputs
+
+            - name: Upload artifact
+              uses: actions/upload-artifact@v2
+              with:
+                  name: outputs
+                  path: outputs
+                  
     build_on_java18:
         # for minecraft 1.17+
         runs-on: ubuntu-latest
         strategy:
             matrix:
                 ver:
-                    - 'latest'
+                    - '1.20.6'
+                    - '1.20.5'
+                    - '1.20.4'
+                    - '1.20.3'
+                    - '1.20.2'
+                    - '1.20.1'
+                    - '1.20'
+                    - '1.19.4'
+                    - '1.19.3'
                     - '1.19.2'
                     - '1.19.1'
                     - '1.19'
@@ -183,6 +229,7 @@ jobs:
             - build_on_java16
             - build_on_java8
             - build_on_java18
+            - build_on_java21
 
         runs-on: ubuntu-latest
 
@@ -207,12 +254,3 @@ jobs:
                   token: ${{ secrets.GITHUB_TOKEN }}
                   artifacts: spigot/*
 
-            - name: Setup aliyun oss
-              uses: manyuanrong/setup-ossutil@master
-              with:
-                endpoint: oss-cn-shanghai.aliyuncs.com
-                access-key-id: ${{ secrets.OSS_KEY_ID }}
-                access-key-secret: ${{ secrets.OSS_KEY_SECRET }}
-            
-            - name: Upload to OSS
-              run: ossutil cp -rf spigot/ oss://static-m-jay/spigot/
