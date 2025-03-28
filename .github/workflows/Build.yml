@@ -31,23 +31,23 @@ jobs:
             ver: ${{ matrix.ver }}
 
         steps:
-            - name: Setup java
+            - name: 设置Java环境
               uses: actions/setup-java@v2
               with:
                   distribution: "adopt"
                   java-version: "21"
 
-            - name: Download BuildTools.jar
+            - name: 下载构建工具
               run: wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 
             - run: mkdir ./outputs
 
-            - name: Build Jars
+            - name: 构建服务端核心
               # if: ${{ matrix.ver !=  env.latest }}
               continue-on-error: true
               run: java -jar BuildTools.jar --rev $ver --output-dir ./outputs
 
-            - name: Upload artifact
+            - name: 上传构建结果
               uses: actions/upload-artifact@v4
               with:
                   name: outputs-${{ matrix.ver }}
@@ -77,23 +77,23 @@ jobs:
             ver: ${{ matrix.ver }}
 
         steps:
-            - name: Setup java
+            - name: 设置Java环境
               uses: actions/setup-java@v2
               with:
                   distribution: "adopt"
                   java-version: "17"
 
-            - name: Download BuildTools.jar
+            - name: 下载构建工具
               run: wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 
             - run: mkdir ./outputs
 
-            - name: Build Jars
+            - name: 构建服务端核心
               # if: ${{ matrix.ver !=  env.latest }}
               continue-on-error: true
               run: java -jar BuildTools.jar --rev $ver --output-dir ./outputs
 
-            - name: Upload artifact
+            - name: 上传构建结果
               uses: actions/upload-artifact@v4
               with:
                   name: outputs-${{ matrix.ver }}
@@ -112,23 +112,23 @@ jobs:
             ver: ${{ matrix.ver }}
 
         steps:
-            - name: Setup java
+            - name: 设置Java环境
               uses: actions/setup-java@v2
               with:
                   distribution: "adopt"
                   java-version: "16"
 
-            - name: Download BuildTools.jar
+            - name: 下载构建工具
               run: wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 
             - run: mkdir ./outputs
 
-            - name: Build Jars
+            - name: 构建服务端核心
               # if: ${{ matrix.ver !=  env.latest }}
               continue-on-error: true
               run: java -jar BuildTools.jar --rev $ver --output-dir ./outputs
 
-            - name: Upload artifact
+            - name: 上传构建结果
               uses: actions/upload-artifact@v4
               with:
                   name: outputs-${{ matrix.ver }}
@@ -174,22 +174,22 @@ jobs:
             ver: ${{ matrix.ver }}
 
         steps:
-            - name: Setup java
+            - name: 设置Java环境
               uses: actions/setup-java@v3
               with:
                   distribution: "adopt"
                   java-version: "8"
 
-            - name: Download BuildTools.jar
+            - name: 下载构建工具
               run: wget https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 
             - run: mkdir ./outputs
 
-            - name: Build Jars
+            - name: 构建服务端核心
               continue-on-error: true
               run: java -jar BuildTools.jar --rev $ver --output-dir ./outputs
 
-            - name: Upload artifact
+            - name: 上传构建结果
               uses: actions/upload-artifact@v4
               with:
                   name: outputs-${{ matrix.ver }}
@@ -209,6 +209,7 @@ jobs:
             - run: mkdir spigot
 
             - uses: actions/download-artifact@v4
+              name: 下载构建结果
               with:
                   path: spigot
                   pattern: outputs-*
@@ -216,7 +217,7 @@ jobs:
 
             - run: "tree"
 
-            - name: Upload to release
+            - name: 发布构建结果
               uses: ncipollo/release-action@v1.8.0
               with:
                   name: 构建结果
