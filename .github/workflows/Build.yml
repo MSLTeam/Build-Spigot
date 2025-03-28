@@ -204,6 +204,7 @@ jobs:
             - build_on_java21
 
         runs-on: ubuntu-latest
+        name: 上传所有构建结果
 
         steps:
             - run: mkdir spigot
