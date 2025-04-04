@@ -214,12 +214,18 @@ jobs:
             - name: 创建目录
               run: mkdir spigot
 
-            - uses: actions/download-artifact@v4
-              name: 下载构建结果
+            - name: 下载构建文件
+              uses: actions/download-artifact@v4
               with:
-                  path: spigot
-                  pattern: outputs-*
-                  merge-multiple: false
+                path: spigot_temp  # 临时下载目录
+                pattern: outputs-*
+                merge-multiple: false
+
+            - name: 合并并覆盖文件
+              run: |
+                mkdir -p spigot
+                find spigot_temp -type f -exec cp -f {} spigot \;
+                rm -rf spigot_temp
 
             - name: 列出文件树
               run: "tree"
