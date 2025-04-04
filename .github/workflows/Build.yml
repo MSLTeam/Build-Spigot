@@ -219,7 +219,7 @@ jobs:
               with:
                   path: spigot
                   pattern: outputs-*
-                  merge-multiple: true
+                  merge-multiple: false
 
             - name: 列出文件树
               run: "tree"
