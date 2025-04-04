@@ -225,13 +225,13 @@ jobs:
               run: "tree"
 
             - name: 发布构建结果
-              uses: softprops/action-gh-release@v2  # 推荐使用最新稳定版本（如v2.0.5）
+              uses: softprops/action-gh-release@v2  
               with:
-                files: spigot/*  # 直接指定文件路径或通配符匹配
-                draft: false  # 默认为正式版（若需草稿模式可设为true）
-                prerelease: false  # 是否为预发布版本
-                update: true  # 允许更新已存在的同名Release（对应原allowUpdates）
-                token: ${{ secrets.GITHUB_TOKEN }}  # 必须传递GITHUB_TOKEN权限
-                name: 构建结果  # 自定义Release名称，默认使用标签名
-                tag_name: BuildRelease  # 若需自定义标签名（默认继承触发标签）
+                files: spigot/*
+                draft: false 
+                prerelease: false 
+                update: true 
+                token: ${{ secrets.GITHUB_TOKEN }}
+                name: Builds  
+                tag_name: Release 
 
