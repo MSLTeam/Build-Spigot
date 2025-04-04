@@ -225,14 +225,12 @@ jobs:
               run: "tree"
 
             - name: 发布构建结果
-              uses: ncipollo/release-action@v1.16.0
+              uses: softprops/action-gh-release@v1
               with:
                   name: 构建结果
-                  allowUpdates: true
-                  replacesArtifacts: true
-                  artifactErrorsFailBuild: false
                   tag: BuildRelease
-                  # commit: ${{ env.CURRENT_BRANCH }}
+                  files: spigot/*
+                  overwrite: true  # 覆盖已存在的文件
+                  fail_on_unmatched_files: false  # 允许文件匹配失败
                   token: ${{ secrets.GITHUB_TOKEN }}
-                  artifacts: spigot/*
 
