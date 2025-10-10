@@ -3,7 +3,7 @@
 
 name: 构建Spigot
 env:
-    latest: '1.21.9'
+    latest: '1.21.10'
 
 on:
     workflow_dispatch:
@@ -19,6 +19,7 @@ jobs:
         strategy:
             matrix:
                 ver:
+                    - '1.21.10'
                     - '1.21.9'
                     - '1.21.8'
                     - '1.21.7'
