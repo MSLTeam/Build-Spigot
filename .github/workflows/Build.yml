@@ -242,6 +242,7 @@ jobs:
             - build_on_java8
             - build_on_java17
             - build_on_java21
+            - build_on_java25
 
         runs-on: ubuntu-latest
         name: 上传所有构建结果
