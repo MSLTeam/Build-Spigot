@@ -12,6 +12,40 @@ on:
         - cron: "30 8 8,18,28 * *"
 
 jobs:
+    build_on_java25:
+        # for minecraft 26.1+
+        runs-on: ubuntu-latest
+        name: 构建适用于Java25的MC版本
+        strategy:
+            matrix:
+                ver:
+                    - '26.1'
+        env:
+            ver: ${{ matrix.ver }}
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: 设置Java环境
+              uses: actions/setup-java@v3
+              with:
+                  distribution: "temurin"
+                  java-version: "25"
+
+            - name: 创建输出目录
+              run: mkdir ./outputs
+
+            - name: 构建服务端核心
+              # if: ${{ matrix.ver !=  env.latest }}
+              continue-on-error: true
+              run: java -jar BuildTools.jar --rev $ver --output-dir ./outputs
+
+            - name: 上传构建结果
+              uses: actions/upload-artifact@v4
+              with:
+                  name: outputs-${{ matrix.ver }}
+                  path: outputs
+                   
     build_on_java21:
         # for minecraft 1.21+
         runs-on: ubuntu-latest
